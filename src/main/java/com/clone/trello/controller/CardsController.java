@@ -1,38 +1,46 @@
 package com.clone.trello.controller;
 
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.clone.trello.model.Card;
+import com.clone.trello.service.CardsService;
 
-@RestController("/trello/cards")
+
+@RestController
+@RequestMapping("/trello/cards")
 public class CardsController {
 	
+	@Autowired
+	private CardsService cardsService;
+	
 	@PostMapping
-	public void createCard(@RequestBody Card card) {
+	public ResponseEntity<Card> createCard(@RequestBody Card card) {
+		Optional<Card> cardOp = cardsService.createCard(card);
+		String id = cardOp.isPresent() ? cardOp.get().getId() : "";
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+	                .path("/"+id)
+	                .buildAndExpand(id)
+	                .toUri();
 		
+		return ResponseEntity.created(location).build(); 
 	}
 	
-	@GetMapping
-	public void findByTag(@RequestAttribute("tag") String tag) {
-		
-	}
-
-	@GetMapping
-	public void findByColumn(@RequestAttribute("column") String column) {
-		
-	}
-	
-	@GetMapping
-	public void findByUser(@RequestAttribute("user") String user) {
-		
-	}
-	
-	@GetMapping
-	public void findAfterTimestamp(@RequestAttribute("timestamp") Long timestamp) {
-		
+	@GetMapping()
+	public List<Card> findByAttribute(@RequestParam Map<String, String> map) {
+		return cardsService.findRecordsByAttribute(map);
 	}
 }

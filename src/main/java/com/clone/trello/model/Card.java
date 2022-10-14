@@ -11,13 +11,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Document
 public class Card {
 	@Id
-    private Integer id;
+    private String id;
 	
 	private List<String> labels; 
 	
