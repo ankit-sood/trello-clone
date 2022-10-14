@@ -1,13 +1,49 @@
 package com.clone.trello.dao;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Repository;
+
 import com.clone.trello.model.Card;
 
-public class CardsDAOImpl implements CardsDAO{
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
+@AllArgsConstructor
+@Repository
+public class CardsDAOImpl implements CardsDAO{
+	@Autowired
+	private final MongoTemplate mongoTemplate;
+	
 	@Override
-	public void createCard(Card card) {
-		// TODO Auto-generated method stub
-		
+	public boolean createCard(Card card) {
+		boolean isSuccess = false;
+		try {
+			mongoTemplate.insert(card, "cards");
+			isSuccess = true;
+		} catch(Exception exp) {
+			log.error("Exception occurred while inserting {}. {}", card, exp);
+		}
+		return isSuccess;
+	}
+	
+	@Override
+	public List<Card> findRecordsEqualToValue(String key, String value){
+		Query query= new Query();
+		query.addCriteria(Criteria.where(key).is(value));
+		return mongoTemplate.find(query, Card.class, "cards");
+	}
+	
+	@Override
+	public List<Card> findRecordsGreaterThanValue(String key, Long value){
+		Query query= new Query();
+		query.addCriteria(Criteria.where(key).gt(value));
+		return mongoTemplate.find(query, Card.class, "cards");
 	}
 
 }
