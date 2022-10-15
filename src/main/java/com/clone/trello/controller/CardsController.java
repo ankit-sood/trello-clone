@@ -16,30 +16,43 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.clone.trello.model.Card;
+import com.clone.trello.service.CardValidationService;
 import com.clone.trello.service.CardsService;
 
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/trello/cards")
 public class CardsController {
 	
 	@Autowired
-	private CardsService cardsService;
+	private final CardsService cardsService;
+	
+	@Autowired
+	private final CardValidationService cardValidationService;
 	
 	@PostMapping
 	public ResponseEntity<Card> createCard(@RequestBody Card card) {
-		Optional<Card> cardOp = cardsService.createCard(card);
-		String id = cardOp.isPresent() ? cardOp.get().getId() : "";
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-	                .path("/"+id)
-	                .buildAndExpand(id)
-	                .toUri();
+		boolean isValid = cardValidationService.validate(card);
+		if(isValid) {
+			Optional<Card> cardOp = cardsService.createCard(card);
+			String id = cardOp.isPresent() ? cardOp.get().getId() : "";
+			URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+		                .path("/"+id)
+		                .buildAndExpand(id)
+		                .toUri();
+			
+			return ResponseEntity.created(location).build(); 
+		} else {
+			return ResponseEntity.badRequest().build();
+		}
 		
-		return ResponseEntity.created(location).build(); 
 	}
 	
 	@GetMapping()
 	public List<Card> findByAttribute(@RequestParam Map<String, String> map) {
 		return cardsService.findRecordsByAttribute(map);
 	}
+	
 }

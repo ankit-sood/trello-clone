@@ -23,16 +23,16 @@ public class Card {
 	private List<String> labels; 
 	
 	@NonNull
-	private String column;
+	private String columnId;
 	
 	@NonNull
 	private Long timestamp;
 	
 	@NonNull
-	private String user;
+	private String userId;
 	
 	@NonNull
-	private String board;
+	private String boardId;
 	
 	@NonNull
 	private String tag;
