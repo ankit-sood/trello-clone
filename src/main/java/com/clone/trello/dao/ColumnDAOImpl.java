@@ -1,6 +1,7 @@
 package com.clone.trello.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -12,7 +13,9 @@ import com.clone.trello.config.DBConfig;
 import com.clone.trello.model.Column;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @AllArgsConstructor
 @Repository
 public class ColumnDAOImpl implements ColumnDAO{
@@ -39,6 +42,16 @@ public class ColumnDAOImpl implements ColumnDAO{
 	public boolean clearCollection() {
 		mongoTemplate.remove(new Query(),dbConfig.getColumnCollectionName());
 		return true;
+	}
+
+	@Override
+	public Optional<Column> createCard(Column column) {
+		try {
+			return Optional.of(mongoTemplate.insert(column, dbConfig.getColumnCollectionName()));
+		} catch(Exception exp) {
+			log.error("Exception occurred while inserting {}. {}", column, exp);
+		}
+		return Optional.empty();
 	}
 
 }
