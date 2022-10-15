@@ -1,6 +1,7 @@
 package com.clone.trello.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -12,7 +13,9 @@ import com.clone.trello.config.DBConfig;
 import com.clone.trello.model.Board;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @AllArgsConstructor
 @Repository
 public class BoardDAOImpl implements BoardDAO{
@@ -39,6 +42,16 @@ public class BoardDAOImpl implements BoardDAO{
 	public boolean clearCollection() {
 		mongoTemplate.remove(new Query(),dbConfig.getBoardCollectionName());
 		return true;
+	}
+
+	@Override
+	public Optional<Board> createBoard(Board board) {
+		try {
+			return Optional.of(mongoTemplate.insert(board, dbConfig.getBoardCollectionName()));
+		} catch(Exception exp) {
+			log.error("Exception occurred while inserting {}. {}", board, exp);
+		}
+		return Optional.empty();
 	}
 
 }
