@@ -19,18 +19,15 @@ import com.clone.trello.model.Card;
 import com.clone.trello.service.CardValidationService;
 import com.clone.trello.service.CardsService;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 @RestController
 @RequestMapping("/trello/cards")
 public class CardsController {
 	
 	@Autowired
-	private final CardsService cardsService;
+	private CardsService cardsService;
 	
 	@Autowired
-	private final CardValidationService cardValidationService;
+	private CardValidationService cardValidationService;
 	
 	@PostMapping
 	public ResponseEntity<Card> createCard(@RequestBody Card card) {

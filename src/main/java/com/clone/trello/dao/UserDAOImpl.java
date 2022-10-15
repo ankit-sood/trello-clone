@@ -12,18 +12,16 @@ import org.springframework.stereotype.Repository;
 import com.clone.trello.config.DBConfig;
 import com.clone.trello.model.User;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@AllArgsConstructor
 @Repository
 public class UserDAOImpl implements UserDAO{
 	@Autowired
-	private final DBConfig dbConfig;
+	private DBConfig dbConfig;
 	
 	@Autowired
-	private final MongoTemplate mongoTemplate;
+	private MongoTemplate mongoTemplate;
 	
 	@Override
 	public List<User> findRecordsEqualToValue(String key, String value) {

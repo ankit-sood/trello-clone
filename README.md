@@ -15,12 +15,12 @@ curl -X POST \
   -H 'authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhbmtpdC5zb29kIiwiZXhwIjoxNTgwMDgyOTk4LCJpYXQiOjE1ODAwNjQ5OTh9.j7bG4Ra3zxWc6Y4-v7-cRwGCK5tod8NAigCDcV7oppWYz9bWyI4WxLz1Zj_hbzsKVWe-wYS4qS9x2UvqP4XI4g' \
   -H 'cache-control: no-cache' \
   -H 'content-type: application/json' \
-  -H 'postman-token: bfd88e31-5896-8fce-9807-08be29f7faf7' \
+  -H 'postman-token: d992d32e-1053-b04a-046f-d8c8bdfd8304' \
   -d '{
-	"column" : "TODO",
+	"columnId" : "c1-todo",
 	"timestamp" : 2124345565,
-	"user" : "Ankit",
-	"board" : "Jira",
+	"userId" : "a0s227",
+	"boardId" : "b227",
 	"tag" : "FDS",
 	"desc" : "Ticket 1"
 }'

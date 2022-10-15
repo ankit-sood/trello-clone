@@ -77,8 +77,8 @@ public class TrelloCloneServiceApplication implements CommandLineRunner{
 		columns.add(column2);
 		
 		Column column3 = new Column();
-		column2.setId("c3-done");
-		column2.setName("DONE");
+		column3.setId("c3-done");
+		column3.setName("DONE");
 		columns.add(column3);
 		return columns;
 	}

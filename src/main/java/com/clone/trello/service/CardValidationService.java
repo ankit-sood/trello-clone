@@ -55,7 +55,7 @@ public class CardValidationService {
 	
 	private List<Callable<Boolean>> getAllValidationTasks(Card card) {
 		List<Callable<Boolean>> callableTasks = new ArrayList<>();
-		callableTasks.add(validateUserTask(1L));
+		callableTasks.add(validateUserTask(card.getUserId()));
 		callableTasks.add(validateColumnTask(card.getColumnId()));
 		callableTasks.add(validateBoardTask(card.getBoardId()));
 		return callableTasks;
@@ -73,23 +73,23 @@ public class CardValidationService {
 		};
 	} 
 
-	private Callable<Boolean> validateUserTask(Long userId){
+	private Callable<Boolean> validateUserTask(String userId){
 		return () -> {
-			List<User> users = userDAO.findRecordsEqualToValue("userId", String.valueOf(userId));
+			List<User> users = userDAO.findRecordsEqualToValue("_id", userId);
 			return users != null && users.size() !=0 ? true : false;
 		};
 	}
 	
 	private Callable<Boolean> validateColumnTask(String colId){
 		return () -> {
-			List<Column> cols = columnDAO.findRecordsEqualToValue("colId", colId);
+			List<Column> cols = columnDAO.findRecordsEqualToValue("_id", colId);
 			return cols != null && cols.size() !=0 ? true : false;
 		};
 	}
 	
 	private Callable<Boolean> validateBoardTask(String boardId){
 		return () -> {
-			List<Board> boards = boardDAO.findRecordsEqualToValue("boardId", String.valueOf(boardId));
+			List<Board> boards = boardDAO.findRecordsEqualToValue("_id", boardId);
 			return boards != null && boards.size() !=0 ? true : false;
 		};
 	}
