@@ -28,7 +28,7 @@ public class CardsDAOImpl implements CardsDAO{
 	@Override
 	public Optional<Card> createCard(Card card) {
 		try {
-			return Optional.of(mongoTemplate.insert(card, dbConfig.collectionName));
+			return Optional.of(mongoTemplate.insert(card, dbConfig.getCardsCollectionName()));
 		} catch(Exception exp) {
 			log.error("Exception occurred while inserting {}. {}", card, exp);
 		}
@@ -39,14 +39,14 @@ public class CardsDAOImpl implements CardsDAO{
 	public List<Card> findRecordsEqualToValue(String key, String value){
 		Query query= new Query();
 		query.addCriteria(Criteria.where(key).is(value));
-		return mongoTemplate.find(query, Card.class, dbConfig.collectionName);
+		return mongoTemplate.find(query, Card.class, dbConfig.getCardsCollectionName());
 	}
 	
 	@Override
 	public List<Card> findRecordsGreaterThanValue(String key, Long value){
 		Query query= new Query();
 		query.addCriteria(Criteria.where(key).gt(value));
-		return mongoTemplate.find(query, Card.class, dbConfig.collectionName);
+		return mongoTemplate.find(query, Card.class, dbConfig.getCardsCollectionName());
 	}
 
 }
