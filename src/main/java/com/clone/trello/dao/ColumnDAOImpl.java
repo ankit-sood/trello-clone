@@ -34,5 +34,11 @@ public class ColumnDAOImpl implements ColumnDAO{
 		//Unimplemented Method
 		return null;
 	}
+	
+	@Override
+	public boolean clearCollection() {
+		mongoTemplate.remove(new Query(),dbConfig.getColumnCollectionName());
+		return true;
+	}
 
 }

@@ -34,5 +34,11 @@ public class UserDAOImpl implements UserDAO{
 		//Unimplemented Method
 		return null;
 	}
+	
+	@Override
+	public boolean clearCollection() {
+		mongoTemplate.remove(new Query(),dbConfig.getUserCollectionName());
+		return true;
+	}
 
 }

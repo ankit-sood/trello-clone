@@ -6,4 +6,6 @@ public interface BaseDAO<T> {
 	public List<T> findRecordsEqualToValue(String key, String value);
 
 	public List<T> findRecordsGreaterThanValue(String key, Long value);
+	
+	public boolean clearCollection();
 }

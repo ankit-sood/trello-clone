@@ -35,4 +35,10 @@ public class BoardDAOImpl implements BoardDAO{
 		return null;
 	}
 
+	@Override
+	public boolean clearCollection() {
+		mongoTemplate.remove(new Query(),dbConfig.getBoardCollectionName());
+		return true;
+	}
+
 }

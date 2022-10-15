@@ -48,5 +48,11 @@ public class CardsDAOImpl implements CardsDAO{
 		query.addCriteria(Criteria.where(key).gt(value));
 		return mongoTemplate.find(query, Card.class, dbConfig.getCardsCollectionName());
 	}
+	
+	@Override
+	public boolean clearCollection() {
+		mongoTemplate.remove(new Query(),dbConfig.getCardsCollectionName());
+		return true;
+	}
 
 }
