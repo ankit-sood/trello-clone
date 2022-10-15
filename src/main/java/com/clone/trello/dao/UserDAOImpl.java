@@ -45,7 +45,7 @@ public class UserDAOImpl implements UserDAO{
 	}
 
 	@Override
-	public Optional<User> createCard(User user) {
+	public Optional<User> createUser(User user) {
 		try {
 			return Optional.of(mongoTemplate.insert(user, dbConfig.getUserCollectionName()));
 		} catch(Exception exp) {

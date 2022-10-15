@@ -45,7 +45,7 @@ public class ColumnDAOImpl implements ColumnDAO{
 	}
 
 	@Override
-	public Optional<Column> createCard(Column column) {
+	public Optional<Column> createColumn(Column column) {
 		try {
 			return Optional.of(mongoTemplate.insert(column, dbConfig.getColumnCollectionName()));
 		} catch(Exception exp) {
